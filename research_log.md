@@ -36,3 +36,9 @@ E0 preprocessing:
 - Input format: M4A (AAC, 48kHz stereo)
 - Converted to: WAV (22,050 Hz, mono)
 - Tool: FFmpeg
+
+E0 inference result:
+- Output intelligible
+- Strong AI timbre
+- Low speaker similarity
+- Expected outcome for conditioning-only setup
