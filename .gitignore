@@ -40,6 +40,9 @@ mlruns/
 # =========================
 data/raw/
 data/processed/
+data/raw/
+data/wav/
+data/segments/
 *.wav
 *.mp3
 *.flac
