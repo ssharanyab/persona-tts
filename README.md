@@ -81,7 +81,7 @@ cd inference
 python generate.py
 ```
 
-#### API Server
+<!-- #### API Server
 
 Start the FastAPI server:
 
@@ -94,8 +94,8 @@ The API will be available at `http://localhost:8000`
 
 ## Development Roadmap
 
-- [ ] Implement data preprocessing pipeline
-- [ ] Train initial TTS model
+- [x] Implement data preprocessing pipeline
+- [x] Train initial TTS model
 - [ ] Complete inference pipeline
 - [ ] Build FastAPI endpoints
 - [ ] Create Flutter desktop application
