@@ -42,3 +42,6 @@ E0 inference result:
 - Strong AI timbre
 - Low speaker similarity
 - Expected outcome for conditioning-only setup
+
+## Experiment E1 – Data Augmentation
+
