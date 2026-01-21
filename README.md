@@ -4,6 +4,13 @@ A personalized Text-to-Speech system for creating custom voice models.
 
 PersonaTTS is a personalized neural text-to-speech system that learns a user's vocal persona from a short speech sample and generates natural-sounding speech for arbitrary input text.
 
+This project explores low-resource speaker adaptation for text-to-speech systems under realistic creator-grade constraints.
+
+Instead of building a new speech model from scratch, the project focuses on:
+designing an end-to-end TTS pipeline collecting real-world voice data evaluating progressive improvement with increasing data studying the limitations of voice cloning under limited resources
+
+The final goal is to build a usable personal narration voice while maintaining research transparency and reproducibility.
+
 ## Motivation
 Most text-to-speech systems rely on large speaker datasets or pre-defined voices. PersonaTTS explores how minimal speaker data (2–3 short recordings) can be used to adapt a neural TTS model to a new voice while maintaining intelligibility and naturalness.
 
@@ -81,7 +88,7 @@ cd inference
 python generate.py
 ```
 
-<!-- #### API Server
+#### API Server
 
 Start the FastAPI server:
 
@@ -89,8 +96,29 @@ Start the FastAPI server:
 cd api
 python main.py
 ```
-
 The API will be available at `http://localhost:8000`
+
+#### Inference
+
+Evaluation is primarily empirical and perceptual:
+- subjective similarity assessment
+- intelligibility
+- long-form listening comfort
+- consistency across paragraphs
+
+Optional:
+- speaker embedding cosine similarity
+- qualitative before/after comparison
+
+#### Research Focus
+This project studies:
+
+- low-resource speaker adaptation
+- real-world recording conditions
+- diminishing returns with increased data
+- trade-offs between quality and practicality
+
+It does not aim to outperform commercial systems, but to understand feasibility and limitations.
 
 ## Development Roadmap
 
