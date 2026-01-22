@@ -45,3 +45,7 @@ E0 inference result:
 
 ## Experiment E1 – Data Augmentation
 
+- Models to check 
+- Sophora
+- cosyvoice
+- meta translate
