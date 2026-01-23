@@ -46,6 +46,6 @@ E0 inference result:
 ## Experiment E1 – Data Augmentation
 
 - Models to check 
-- Sophora
-- cosyvoice
+- Sophora multilingual voice clone s 
+- cosyvoice research model
 - meta translate
