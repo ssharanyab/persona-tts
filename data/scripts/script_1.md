@@ -1,4 +1,4 @@
-# 🎙️ PERSONA TTS — DAY 1 FULL SCRIPT
+ # 🎙️ PERSONA TTS — DAY 1 FULL SCRIPT
 
 **Style:** calm YouTube explainer
 **Purpose:** baseline voice + pronunciation + flow
