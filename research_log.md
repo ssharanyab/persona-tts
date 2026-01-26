@@ -45,6 +45,28 @@ E0 inference result:
 
 ## Experiment E1 – Data Augmentation
 
+Applied Adaptive Speaker Clip Selection (ASCS):
+
+- Metrics: duration, RMS energy, silence ratio
+- Strategy: rank-based filtering
+- Retained ~80% highest quality clips
+- Goal: improve speaker adaptation stability under low-resource setting
+
+
+ASCS result:
+- Initial clips: 78
+- Selected clips: 62
+- Retention ratio: ~79%
+- Resulting dataset duration: ~12–13 minutes
+- Observation: removing low-energy and high-silence clips improved consistency
+
+Dataset metadata:
+- metadata.csv auto-generated from final_segments
+- dummy text used for speaker adaptation
+- single-speaker dataset
+
+
+
 - Models to check 
 - Sophora multilingual voice clone s 
 - cosyvoice research model

@@ -1,0 +1,36 @@
+model: xtts
+
+output_path: trained_models/xtts_finetuned
+
+dataset:
+  formatter: xtts
+    path: data
+    meta_file_train: metadata.csv
+    meta_file_val: metadata.csv
+
+audio:
+  sample_rate: 22050
+
+training:
+  batch_size: 2
+  eval_batch_size: 2
+  num_loader_workers: 2
+  epochs: 15
+  learning_rate: 5e-6
+  print_step: 25
+  save_step: 500
+  mixed_precision: true
+
+optimizer:
+  optimizer: AdamW
+  weight_decay: 0.01
+
+trainer:
+  gpu: true
+  benchmark: false
+  cudnn_enabled: true
+
+xtts:
+  freeze_backbone: true
+  freeze_text_encoder: true
+  speaker_adapter: true
