@@ -71,3 +71,6 @@ Dataset metadata:
 - Sophora multilingual voice clone s 
 - cosyvoice research model
 - meta translate
+- moshi
+- nvidia-personaplex
+- Qwen3-TTS
