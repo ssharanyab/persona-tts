@@ -1,130 +1,141 @@
-# Persona TTS
+# 🎙️ Persona TTS — Phase 1  
+**Data-Centric Speaker Conditioning with XTTS**
 
-A personalized Text-to-Speech system for creating custom voice models.
 
-PersonaTTS is a personalized neural text-to-speech system that learns a user's vocal persona from a short speech sample and generates natural-sounding speech for arbitrary input text.
+## ✅ Final Result
 
-This project explores low-resource speaker adaptation for text-to-speech systems under realistic creator-grade constraints.
+**Speaker similarity score:** **0.762 (cosine similarity)**
 
-Instead of building a new speech model from scratch, the project focuses on:
-designing an end-to-end TTS pipeline collecting real-world voice data evaluating progressive improvement with increasing data studying the limitations of voice cloning under limited resources
+Measured between real voice and generated speech using a pretrained speaker verification model.
 
-The final goal is to build a usable personal narration voice while maintaining research transparency and reproducibility.
+This indicates **moderate-to-strong speaker identity alignment achieved without any model training**, using only multi-reference conditioning.
 
-## Motivation
-Most text-to-speech systems rely on large speaker datasets or pre-defined voices. PersonaTTS explores how minimal speaker data (2–3 short recordings) can be used to adapt a neural TTS model to a new voice while maintaining intelligibility and naturalness.
+![Speaker verification result](assets/speaker_similarity_result.png)
 
-## High-Level Pipeline
-1. User voice recording (2–3 paragraphs)
-2. Audio preprocessing and validation
-3. Speaker representation extraction
-4. Speaker-conditioned text-to-speech generation
-5. Audio output
 
-## Project Structure
+## 📘 Overview
 
-```
+Persona TTS — Phase 1 explores **speaker conditioning** using XTTS under limited voice data.
+
+No model training or fine-tuning is performed.
+
+The goal is to understand how far voice similarity can be improved using **data selection, reference composition, and objective evaluation** alone.
+
+
+## 🎯 Objectives
+
+- Study voice cloning behavior without training  
+- Improve speaker identity using reference audio selection  
+- Build a clean conditioning pipeline  
+- Evaluate similarity objectively instead of relying only on listening  
+
+## 📂 Repository Structure
+
+```bash
 persona-tts/
-│
-├── data/
-│   ├── raw/              # Original audio recordings
-│   ├── processed/        # Trimmed and normalized audio
-│   └── metadata.csv      # Audio file metadata
-│
-├── training/
-│   ├── config.yaml       # Training configuration
-│   └── train.py          # Training script
-│
 ├── inference/
-│   ├── generate.py       # Speech generation
-│   └── model_loader.py   # Model loading utilities
-│
-├── api/
-│   └── main.py           # FastAPI server
-│
-├── flutter_app/          # Desktop UI (planned)
-│
+├── algorithms/
+├── evaluation/
+├── docs/
+├── assets/
 └── README.md
 ```
 
-## Getting Started
+Audio data and generated outputs are excluded for privacy.
 
-### Prerequisites
 
-- Python 3.8+
-- PyTorch
-- FastAPI (for API server)
-- Flutter (for desktop app)
+## ⚙️ Pipeline
 
-### Installation
+Recording
+→ Preprocessing
+→ Segmentation
+→ Clip Selection (ASCS)
+→ Reference Bucketing
+→ Multi-Reference Conditioning
+→ Speaker Verification
 
-```bash
-# Install dependencies
-pip install torch torchaudio
-pip install fastapi uvicorn pydantic
-pip install pyyaml
-```
 
-### Usage
+## 🔧 Key Components
 
-#### Training
+### Adaptive Speaker Clip Selection (ASCS)
 
-1. Place your audio recordings in `data/raw/`
-2. Update `data/metadata.csv` with file information
-3. Configure training parameters in `training/config.yaml`
-4. Run training:
+Reference clips are ranked using:
+- duration  
+- RMS energy  
+- silence ratio  
 
-```bash
-cd training
-python train.py
-```
+Only high-quality clips are retained to improve embedding stability.
 
-#### Inference
 
-Generate speech from text:
+### Automatic Reference Bucketing
 
-```bash
-cd inference
-python generate.py
-```
+Clips are grouped into approximate speaking styles:
+- neutral  
+- expressive  
+- energetic  
+- slow  
 
-#### API Server
+This enables controlled conditioning experiments.
 
-Start the FastAPI server:
 
-```bash
-cd api
-python main.py
-```
-The API will be available at `http://localhost:8000`
+### Conditioning-Based Inference
 
-#### Inference
+XTTS v2 is used strictly in **reference conditioning mode**:
 
-Evaluation is primarily empirical and perceptual:
-- subjective similarity assessment
-- intelligibility
-- long-form listening comfort
-- consistency across paragraphs
+- no weight updates  
+- no fine-tuning  
+- no dataset training  
 
-Optional:
-- speaker embedding cosine similarity
-- qualitative before/after comparison
+Speaker identity is injected using multiple reference clips.
 
-#### Research Focus
-This project studies:
 
-- low-resource speaker adaptation
-- real-world recording conditions
-- diminishing returns with increased data
-- trade-offs between quality and practicality
 
-It does not aim to outperform commercial systems, but to understand feasibility and limitations.
+### Objective Evaluation
 
-## Development Roadmap
+A pretrained speaker verification model is used to:
 
-- [x] Implement data preprocessing pipeline
-- [x] Train initial TTS model
-- [ ] Complete inference pipeline
-- [ ] Build FastAPI endpoints
-- [ ] Create Flutter desktop application
+- extract speaker embeddings  
+- compute cosine similarity  
+- compare baseline vs improved outputs  
+
+This provides measurable identity comparison beyond subjective listening.
+
+
+
+## 📊 Observations
+
+**Worked well**
+- multi-reference conditioning  
+- clean short reference clips  
+- data quality over quantity  
+- objective verification aligned with perception  
+
+**Did not**
+- long-form stability  
+- emotional expressiveness  
+- full identity consistency  
+
+---
+
+## ⚠️ Limitations
+
+- no model training  
+- no gradient updates  
+- identity drift in long narration  
+- limited expressive control  
+
+These are expected limitations of conditioning-based approaches.
+
+
+## 🔮 Future Scope
+
+Phase 2 will focus on **training-based approaches under Linux**, including:
+
+- gradient-based speaker adaptation  
+- alignment-aware learning  
+- research-level experimentation  
+- paper-oriented evaluation  
+
+Phase 1 serves as the foundation.
+
 
