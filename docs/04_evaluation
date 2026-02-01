@@ -1,0 +1,91 @@
+# Evaluation
+
+Evaluating voice cloning quality requires both subjective listening and objective
+measurement.
+
+This project combines perceptual analysis with speaker verification scoring.
+
+---
+
+## Subjective Evaluation
+
+Listening-based evaluation focused on:
+
+- perceived similarity to original speaker
+- pitch alignment
+- cadence and rhythm
+- presence of synthetic artifacts
+
+Subjective evaluation is necessary but insufficient on its own, as perception can
+be biased.
+
+---
+
+## Objective Speaker Verification
+
+To complement listening tests, a pretrained speaker verification model was used.
+
+The evaluation pipeline consists of:
+
+1. Extract speaker embeddings from real reference audio
+2. Extract embeddings from generated speech
+3. Compute cosine similarity between embeddings
+
+Higher similarity scores indicate closer speaker identity.
+
+---
+
+## Verification Model
+
+A pretrained speaker encoder was used for evaluation only.
+No additional training was performed.
+
+The model produces fixed-length speaker embeddings representing vocal identity.
+
+---
+
+## Similarity Interpretation
+
+Similarity scores are interpreted approximately as:
+
+- > 0.80 : strong speaker similarity
+- 0.70–0.80 : moderate similarity
+- < 0.65 : weak similarity
+
+Scores are most meaningful when compared relatively between experiments.
+
+---
+
+## Observations
+
+Compared to baseline single-reference inference:
+
+- multi-reference conditioning increased similarity scores
+- reference quality had greater impact than quantity
+- expressive reference sets sometimes reduced stability
+
+Objective scoring aligned well with subjective listening trends.
+
+---
+
+## Limitations of Evaluation
+
+Speaker verification models are not perfect and may be influenced by:
+
+- background noise
+- recording conditions
+- short utterance duration
+- prosodic variation
+
+Therefore, similarity scores should be interpreted as supportive evidence rather
+than absolute truth.
+
+---
+
+## Summary
+
+Evaluation confirms that conditioning-based speaker adaptation can measurably
+improve identity similarity, even without training.
+
+However, limitations remain in expressiveness, long-form stability, and emotional
+control, motivating future training-based approaches.

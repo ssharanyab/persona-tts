@@ -1,0 +1,95 @@
+# Processing
+
+This stage focuses on preparing high-quality reference audio for conditioning-based
+text-to-speech inference.
+
+No model training or fine-tuning is performed yet.
+Instead, improvements are achieved through data-centric processing strategies.
+
+---
+
+## Overview
+
+Processing consists of two major components:
+
+1. Adaptive Speaker Clip Selection (ASCS)
+2. Automatic style-oriented clip bucketing
+
+These steps aim to improve speaker identity consistency during conditioning.
+
+---
+
+## Adaptive Speaker Clip Selection (ASCS)
+
+XTTS speaker conditioning is highly sensitive to the quality of reference audio.
+Low-energy or noisy clips can significantly degrade the generated voice.
+
+To address this, a lightweight heuristic-based selection algorithm was applied.
+
+### Features used
+
+For each audio segment:
+
+- Duration (seconds)
+- RMS energy (average loudness)
+- Silence ratio (percentage of near-zero amplitude)
+
+### Selection strategy
+
+Each clip is assigned a quality score based on:
+
+- Higher duration (up to target segment length)
+- Higher RMS energy
+- Lower silence ratio
+
+Clips are ranked and only the top-performing subset is retained.
+
+This improves:
+
+- embedding stability
+- speaker identity clarity
+- conditioning consistency
+
+ASCS does not require training and operates fully offline.
+
+---
+
+## Automatic Clip Bucketing
+
+Speaker reference audio can contain variations in delivery style such as:
+
+- neutral narration
+- expressive speech
+- energetic delivery
+- slower pacing
+
+To explore how these variations influence conditioning output, clips are grouped into
+style-oriented buckets using signal-level features.
+
+### Features used
+
+- RMS energy
+- Pitch variance
+- Silence ratio
+
+Based on relative thresholds, clips are automatically grouped into:
+
+- Neutral
+- Expressive
+- Energetic
+- Slow
+
+This bucketing is heuristic-based and not intended to be perfect.
+It serves as a starting point for reference composition experiments.
+
+---
+
+## Outcome
+
+Processing results in:
+
+- a filtered set of high-quality speaker reference clips
+- multiple style-based reference groups
+- structured inputs for controlled inference experiments
+
+These steps enable systematic evaluation without modifying model parameters.

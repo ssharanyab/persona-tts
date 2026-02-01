@@ -1,0 +1,89 @@
+# Inference
+
+Inference is performed using XTTS v2 in conditioning mode.
+
+No weights are updated during this stage.
+All voice adaptation occurs through reference audio embeddings.
+
+---
+
+## Conditioning-Based Generation
+
+XTTS supports speaker conditioning by extracting embeddings from one or more
+reference audio clips.
+
+During inference:
+
+1. Reference audio clips are encoded into speaker embeddings
+2. Embeddings are aggregated internally by the model
+3. Generated speech is conditioned on the resulting speaker representation
+
+This approach enables voice adaptation without fine-tuning.
+
+---
+
+## Single vs Multi-Reference Conditioning
+
+Two conditioning setups were evaluated:
+
+### Single-reference conditioning
+
+- Uses one short reference clip
+- Fast and lightweight
+- Often produces generic or unstable speaker identity
+
+### Multi-reference conditioning
+
+- Uses multiple reference clips (5–10)
+- Embeddings are averaged internally
+- Produces stronger identity consistency
+
+Multi-reference conditioning consistently outperformed single-reference usage.
+
+---
+
+## Reference Composition Experiments
+
+Different reference sets were constructed from processed audio:
+
+- Neutral reference set
+- Expressive reference set
+- Mixed reference set
+
+Each reference set was used with identical text input to isolate the effect of
+reference composition.
+
+Observed differences included:
+
+- pacing variation
+- pitch consistency
+- expressiveness
+- stability during longer outputs
+
+This demonstrates that conditioning behavior is strongly influenced by
+reference audio selection.
+
+---
+
+## Long-Form Generation
+
+Longer narration samples were generated to evaluate:
+
+- speaker drift
+- identity stability
+- fatigue artifacts
+- tonal flattening
+
+While conditioning improves short-form similarity, long-form generation still
+exhibits gradual degradation — a known limitation of reference-based methods.
+
+---
+
+## Summary
+
+Inference experiments demonstrate that:
+
+- reference quality matters more than reference quantity
+- multiple short, clean clips outperform single long samples
+- conditioning can approximate speaker identity without training
+- expressive control remains limited without model fine-tuning
