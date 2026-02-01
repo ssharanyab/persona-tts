@@ -115,7 +115,6 @@ This provides measurable identity comparison beyond subjective listening.
 - emotional expressiveness  
 - full identity consistency  
 
----
 
 ## ⚠️ Limitations
 
