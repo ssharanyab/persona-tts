@@ -1,140 +1,109 @@
-# 🎙️ Persona TTS — Phase 1  
+# Persona TTS — Phase 1
 **Data-Centric Speaker Conditioning with XTTS**
 
+## Final Result
 
-## ✅ Final Result
+**Speaker similarity score:** **0.762** (cosine similarity)
 
-**Speaker similarity score:** **0.762 (cosine similarity)**
+Measured between real voice and generated speech using a pretrained speaker verification model ([Resemblyzer](https://github.com/resemble-ai/Resemblyzer)).
 
-Measured between real voice and generated speech using a pretrained speaker verification model.
-
-This indicates **moderate-to-strong speaker identity alignment achieved without any model training**, using only multi-reference conditioning.
+Moderate-to-strong speaker identity alignment without any model training — multi-reference conditioning only.
 
 ![Speaker verification result](assets/speaker_similarity_result.png)
 
+## Overview
 
-## 📘 Overview
+Phase 1 explores **speaker conditioning** with XTTS under limited voice data.
 
-Persona TTS — Phase 1 explores **speaker conditioning** using XTTS under limited voice data.
+No model training or fine-tuning. The question is how far voice similarity can be pushed with **data selection, reference composition, and objective evaluation** alone.
 
-No model training or fine-tuning is performed.
+## Objectives
 
-The goal is to understand how far voice similarity can be improved using **data selection, reference composition, and objective evaluation** alone.
+- Study voice cloning without training
+- Improve speaker identity via reference audio selection
+- Build a clean conditioning pipeline
+- Evaluate similarity objectively (not listening alone)
 
+## Repository Structure
 
-## 🎯 Objectives
-
-- Study voice cloning behavior without training  
-- Improve speaker identity using reference audio selection  
-- Build a clean conditioning pipeline  
-- Evaluate similarity objectively instead of relying only on listening  
-
-## 📂 Repository Structure
-
-```bash
+```
 persona-tts/
-├── inference/
-├── algorithms/
-├── evaluation/
-├── docs/
+├── scripts/           # ASCS + automatic reference bucketing
+│   ├── ascs.py
+│   └── auto_bucket.py
+├── inference/         # XTTS conditioning / generation
+│   ├── conditioning.py
+│   └── xtts_test.py
+├── evaluation/        # Speaker verification scoring
+│   └── speaker_verification.py
+├── docs/              # Pipeline stage notes
 ├── assets/
 └── README.md
 ```
 
-Audio data and generated outputs are excluded for privacy.
+Audio data and generated outputs are excluded for privacy (see `.gitignore`).
 
+## Pipeline
 
-## ⚙️ Pipeline
-
+```
 Recording
-→ Preprocessing
-→ Segmentation
-→ Clip Selection (ASCS)
-→ Reference Bucketing
-→ Multi-Reference Conditioning
-→ Speaker Verification
+  → Preprocessing
+  → Segmentation
+  → Clip Selection (ASCS)
+  → Reference Bucketing
+  → Multi-Reference Conditioning
+  → Speaker Verification
+```
 
+Stage writeups: [preprocessing](docs/01_preprocessing.md) · [processing](docs/02_processing) · [inference](docs/03_inference) · [evaluation](docs/04_evaluation)
 
-## 🔧 Key Components
+## Key Components
 
 ### Adaptive Speaker Clip Selection (ASCS)
 
-Reference clips are ranked using:
-- duration  
-- RMS energy  
-- silence ratio  
-
-Only high-quality clips are retained to improve embedding stability.
-
+`scripts/ascs.py` ranks clips by duration, RMS energy, and silence ratio. Low-quality clips are dropped to stabilize speaker embeddings.
 
 ### Automatic Reference Bucketing
 
-Clips are grouped into approximate speaking styles:
-- neutral  
-- expressive  
-- energetic  
-- slow  
-
-This enables controlled conditioning experiments.
-
+`scripts/auto_bucket.py` groups clips into approximate styles (neutral, expressive, energetic, slow) for controlled conditioning experiments.
 
 ### Conditioning-Based Inference
 
-XTTS v2 is used strictly in **reference conditioning mode**:
+XTTS v2 in **reference conditioning mode** only:
 
-- no weight updates  
-- no fine-tuning  
-- no dataset training  
+- no weight updates
+- no fine-tuning
+- no dataset training
 
-Speaker identity is injected using multiple reference clips.
-
-
+Speaker identity is injected via multiple reference clips (`inference/conditioning.py`).
 
 ### Objective Evaluation
 
-A pretrained speaker verification model is used to:
+`evaluation/speaker_verification.py` extracts embeddings and reports cosine similarity between real and generated speech.
 
-- extract speaker embeddings  
-- compute cosine similarity  
-- compare baseline vs improved outputs  
-
-This provides measurable identity comparison beyond subjective listening.
-
-
-
-## 📊 Observations
+## Observations
 
 **Worked well**
-- multi-reference conditioning  
-- clean short reference clips  
-- data quality over quantity  
-- objective verification aligned with perception  
+- multi-reference conditioning
+- clean short reference clips
+- data quality over quantity
+- objective verification aligned with perception
 
 **Did not**
-- long-form stability  
-- emotional expressiveness  
-- full identity consistency  
+- long-form stability
+- emotional expressiveness
+- full identity consistency
 
+## Limitations
 
-## ⚠️ Limitations
+- no model training / gradient updates
+- identity drift in long narration
+- limited expressive control
 
-- no model training  
-- no gradient updates  
-- identity drift in long narration  
-- limited expressive control  
+Expected for conditioning-only approaches.
 
-These are expected limitations of conditioning-based approaches.
+## Future Scope
 
+Phase 2 (Linux): training-based adaptation — gradient speaker adaptation, alignment-aware learning, paper-oriented evaluation.
 
-## 🔮 Future Scope
-
-Phase 2 will focus on **training-based approaches under Linux**, including:
-
-- gradient-based speaker adaptation  
-- alignment-aware learning  
-- research-level experimentation  
-- paper-oriented evaluation  
-
-Phase 1 serves as the foundation.
-
-
+Phase 1 is the foundation.
